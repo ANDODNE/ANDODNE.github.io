@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAME</title>
+<style media="screen">
+  body {
+            text-align: center;
+        }
+</style>
+</head>
+
+
+<body>
+
+
+  <h1>四种花色代表0，1，2，3四个数字，猜猜他们之间的对应关系吧！</h1>
+  <img src="img/heitao.png",alt="heitao">
+  <img src="img/meihua.png",alt="meihua">
+  <img src="img/hongtao.png",alt="hongtao">
+  <img src="img/fangkuai.png",alt="fangkuai">
+  <form id="puzzleForm">
+    <h2></h2>
+    <label for="num1"></label>
+    <select id="num1" name="num1" required>
+      <option value="梅花">梅花</option>
+      <option value="红桃">红桃</option>
+      <option value="黑桃">黑桃</option>
+      <option value="方块">方块</option>
+    </select>
+
+    <label for="+">+</label>
+
+    <label for="num2"></label>
+    <select id="num2" name="num2" required>
+      <option value="梅花">梅花</option>
+      <option value="红桃">红桃</option>
+      <option value="黑桃">黑桃</option>
+      <option value="方块">方块</option>
+    </select>
+
+    <label for="=">=</label>
+
+    <button type="submit">!?</button>
+  </form>
+  <div id="result"></div>
+
+  <h2></h2>
+  <form id="guessNumberForm">
+    <label for="guessZero", id="labelText1">“梅花” is </label>
+    <input type="number" id="guessZero" name="guessZero" min="0" max="3" required><br><br>
+    <label for="guessOne", id="labelText2">“红桃” is </label>
+    <input type="number" id="guessOne" name="guessOne" min="0" max="3" required><br><br>
+    <label for="guessTwo", id="labelText3">“黑桃” is </label>
+    <input type="number" id="guessTwo" name="guessTwo" min="0" max="3" required><br><br>
+    <label for="guessThree", id="labelText4">“方块” is </label>
+    <input type="number" id="guessThree" name="guessThree" min="0" max="3" required><br><br>
+    <button type="submit">check!</button>
+  </form>
+  <div id="guessResult"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var labelTextElement = document.getElementById('labelText1');
+
+        var imgElement = document.createElement('img');
+        imgElement.src = 'img/meihua.png';
+        imgElement.alt = 'meihua';
+        imgElement.style.width = '50px';
+        imgElement.style.height = '50px';
+        var textNode = document.createTextNode(' is ');
+
+        labelTextElement.innerHTML = '';
+        labelTextElement.appendChild(imgElement);
+        labelTextElement.appendChild(textNode);
+    });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var labelTextElement = document.getElementById('labelText2');
+
+      var imgElement = document.createElement('img');
+      imgElement.src = 'img/hongtao.png';
+      imgElement.alt = 'hongtao';
+      imgElement.style.width = '50px';
+      imgElement.style.height = '50px';
+      var textNode = document.createTextNode(' is ');
+
+      labelTextElement.innerHTML = '';
+      labelTextElement.appendChild(imgElement);
+      labelTextElement.appendChild(textNode);
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var labelTextElement = document.getElementById('labelText3');
+
+      var imgElement = document.createElement('img');
+      imgElement.src = 'img/heitao.png';
+      imgElement.alt = 'heitao';
+      imgElement.style.width = '50px';
+      imgElement.style.height = '50px';
+      var textNode = document.createTextNode(' is ');
+
+      labelTextElement.innerHTML = '';
+      labelTextElement.appendChild(imgElement);
+      labelTextElement.appendChild(textNode);
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var labelTextElement = document.getElementById('labelText4');
+
+      var imgElement = document.createElement('img');
+      imgElement.src = 'img/fangkuai.png';
+      imgElement.alt = 'fangkuai';
+      imgElement.style.width = '50px';
+      imgElement.style.height = '50px';
+      var textNode = document.createTextNode(' is ');
+
+      labelTextElement.innerHTML = '';
+      labelTextElement.appendChild(imgElement);
+      labelTextElement.appendChild(textNode);
+  });
+</script>
+
+  <script>
+    document.getElementById("puzzleForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+
+      var num1 = document.getElementById("num1").value;
+      var num2 = document.getElementById("num2").value;
+
+
+      var num1Value = convertChineseToNumber(num1);
+      var num2Value = convertChineseToNumber(num2);
+
+
+      var sum = num1Value + num2Value;
+      var resultText = "";
+
+      if (sum === 3) {
+        resultText = "等于一个方块！";
+      }
+      else if (sum === 0) {
+        resultText = "等于梅花-梅花！";
+      }
+      else if (sum === 1) {
+        resultText = "比梅花+黑桃小！";
+      }
+      else if (sum === 4) {
+        resultText = "等于两个黑桃！";
+      }
+      else if (sum === 2) {
+        resultText = "比黑桃-红桃大！";
+      }
+      else if (sum >= 5) {
+        resultText = "比方块+红桃大！";
+      }
+      else {
+        resultText = "hello world";
+      }
+
+
+      document.getElementById("result").innerText = resultText;
+    });
+
+    document.getElementById("guessNumberForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+
+      var guessZero = parseInt(document.getElementById("guessZero").value);
+      var guessOne = parseInt(document.getElementById("guessOne").value);
+      var guessTwo = parseInt(document.getElementById("guessTwo").value);
+      var guessThree = parseInt(document.getElementById("guessThree").value);
+
+
+      var guessResultText = "";
+      if (guessZero === 0 && guessOne === 1 && guessTwo === 2 && guessThree === 3) {
+        guessResultText = "全部正确！";
+      } else {
+        guessResultText = "有一点点小小的错误！";
+      }
+
+
+      document.getElementById("guessResult").innerText = guessResultText;
+    });
+
+
+    function convertChineseToNumber(chinese) {
+      switch (chinese) {
+        case "梅花":
+          return 0;
+        case "红桃":
+          return 1;
+        case "黑桃":
+          return 2;
+        case "方块":
+          return 3;
+        default:
+          return 0;
+      }
+    }
+  </script>
+</body>
+</html>
