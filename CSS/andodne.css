@@ -1,0 +1,662 @@
+html,body{
+  margin: 0;
+  font-family: "PingFang TC", "Microsoft Yahei", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  /* 主蓝色，按钮，社交图标 */
+  --primary-color: rgba(255,216,48,0.64);
+  /* 主蓝色，深，导航 */
+  --primary-dark-color: #4489b5;
+  --text-color-gray: #8b979f;
+  --text-color-light-gray: #c1c7cb;
+  --text-color-dark-gray: #5a6f7c;
+}
+
+html {
+  /* 需隐藏最外层不可见区域以使视差生效 */
+  overflow: hidden;
+}
+
+.container {
+  /* 开启3d空间，数值越小3D效果越大 */
+  perspective: 1px;
+  /* 在3D空间进行transform */
+  transform-style: preserve-3d;
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* 需要设置高度以使时差生效 */
+  height: 100vh;
+  max-width: 1920px; /* 设置最大宽度 */
+  margin: 0 auto; /* 居中对齐 */
+  padding: 0 124px; /* 左右留出一定的空间 */
+}
+
+/*导航部分*/
+ul,li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  width: 180px;
+  line-height: 48px;
+  text-align: center;
+  cursor: pointer;
+}
+
+ul {
+  position: relative;
+  display: flex;
+}
+
+ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+.slider {
+  width: 80px;
+  height: 10px;
+  background-color: rgba(255,216,48,0.96);
+  border-radius: 4px;
+  position: absolute;
+  left: 0px;
+  bottom: 0;
+  z-index: -1;
+  transition: all ease 0.4s;
+}
+
+li:nth-child(1):hover ~ .slider {
+  left: 0px;
+}
+
+li:nth-child(2):hover ~ .slider {
+  left: 80px;
+}
+
+li:nth-child(3):hover ~ .slider {
+  left: 160px;
+}
+
+nav.top.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* 左右padding */
+  padding: 0 5vw;
+  height: 48px;
+  background-color: rgba(141, 245, 233, 0.75);
+}
+
+.logo {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  /* 占一半宽度 */
+  flex: 1;
+}
+
+.nav-menu {
+  /* 占令一半宽度 */
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 240px;
+}
+
+.nav-menu li {
+  list-style: none;
+  color: white;
+  font-weight: 550;
+  line-height:inherit;
+}
+
+.burger div {
+  /* 设置汉堡按钮三层条 */
+  width: 24px;
+  height: 2px;
+  background-color: white;
+  margin: 4px;
+}
+
+.burger {
+  display: none;
+}
+
+
+/*方块照片墙*/
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+
+  .cube {
+    width: 160px;
+    height: 160px;
+    transform-style: preserve-3d;
+    transform-origin: 80px 80px 0;
+    animation: rotate-cube 10s ease-in-out infinite;
+  }
+
+  .cube > div {
+    width: 160px;
+    height: 160px;
+    background-size: cover;
+    background-position: center center;
+    opacity: 0.8;
+    position: absolute;
+    box-shadow: inset 0 0 4px 2px rgba(106, 106, 106, 0.4);
+  }
+
+  /* 前 */
+  .cube .img1 {
+    background-image: url("cube img/img1.jpg");
+    transform: rotateY(0deg) translateZ(80px);
+  }
+
+  /* 右 */
+  .cube .img2 {
+    background-image: url("cube img/img2.jpg");
+    transform: rotateY(90deg) translateZ(80px);
+  }
+
+  /* 左 */
+  .cube .img3 {
+    background-image: url("cube img/img3.jpg");
+    transform: rotateY(-90deg) translateZ(80px);
+  }
+
+  /* 下 */
+  .cube .img4 {
+    background-image: url("cube img/img4.jpg");
+    transform: rotateX(90deg) translateZ(80px);
+  }
+
+  /* 上 */
+  .cube .img5 {
+    background-image: url("cube img/img5.jpg");
+    transform: rotateX(-90deg) translateZ(80px);
+  }
+
+  /* 后 */
+  .cube .img6 {
+    background-image: url("cube img/img6.jpg");
+    transform: rotateY(180deg) translateZ(80px);
+  }
+
+  .transparent-button {
+    width: 160px;
+    height: 160px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    text-indent: -9999px;
+    border: none;
+    background-color: transparent;
+  }
+}
+
+
+/*视差背景*/
+.container::before {
+  position: absolute;
+  content: "";
+  display: block;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-image: linear-gradient(to top, rgba(255, 255, 255, 1), transparent),url('img/background.jpg');
+  background-size: cover;
+  /* 核心，按z轴向远处移动1px，大小会缩小一倍，使用scale放大到原图大小 */
+  transform: translateZ(-1px) scale(2.045);
+  z-index: -1;
+}
+
+
+/*翻转式鸟瞰番剧图*/
+article {
+  background-color: rgba(111, 120, 150, 0.24);
+  box-shadow: 0 10px 24px rgba(0, 3, 4, 0.16);
+  border-radius: 8px;
+
+  .row {
+  display: flex;
+  }
+
+  .Odd-number-day {
+    width: 160px;
+    height: 32px;
+    font-size: 24px;
+    text-align: center;
+    align-items: center;
+    flex:auto;
+    background-color: rgba(53, 60, 75,0.72);
+    color:white;
+  }
+
+  .Even-number-day {
+    width: 160px;
+    height: 32px;
+    font-size: 24px;
+    text-align: center;
+    align-items: center;
+    flex:auto;
+    background-color: rgba(53, 60, 75,0.24)
+  }
+
+  .pro-card-wrapper {
+    /* 开启3D空间 */
+    perspective: 300px;
+    width: 160px;
+    flex:auto;
+  }
+
+  .pro-card {
+  /* 基础布局 */
+  width: 160px;
+  height: 232px;
+  margin: 4px;
+  font-size: 12px;
+  position: relative;
+  text-align: center;
+
+  .character img {
+    max-width: 160px
+  };
+
+  /* 翻转特效时间 */
+  transition: transform 0.8s;
+  /* 保留3D空间 */
+  transform-style: preserve-3d;
+  }
+
+  /* 动画 */
+  .hiragana,
+  .katakana {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* 隐藏3D的背面 */
+    backface-visibility: hidden;
+    color: white;
+    background-color: rgba(53, 60, 75, 0.42);
+  }
+
+  /* 翻转卡片 */
+  .katakana {
+    transform: rotateY(180deg);
+  }
+
+  .pro-card-wrapper:hover .pro-card {
+    transform: rotateY(180deg);
+  }
+
+  .br{
+  /* 基础布局 */
+  width: 160px;
+  height: 232px;
+  margin: 0px;
+  flex: auto;
+  }
+}
+
+
+/*推荐番剧卡片*/
+my-watching {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  * {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    box-sizing: border-box;
+    font-family: "Raleway", "PingFang SC", "Microsoft Yahei", sans-serif;
+  }
+
+  .wrapper {
+    display: flex;
+    position: relative;
+    flex:  auto;
+  }
+
+  .profile-card {
+    display: grid;
+    /* 12格栅格 */
+    grid-template-columns: repeat(12, 1fr);
+    /* 每个列之间的空隙是12px */
+    column-gap: 12px;
+    width: 700px;
+    height: 320px;
+    box-shadow: 0px 0px 16px 3px rgba(0, 0, 0, 0.18);
+  }
+
+  .profile-image {
+    /* 图片占5列 */
+    grid-column: 8 / 13;
+    max-width: 256px;
+    height: 100%;
+    /* 隐藏图片超出区域 */
+    overflow: hidden;
+    /* 垂直为靠上对齐 */
+    align-self: start;
+    /* 水平为靠右对齐 */
+    justify-self: end;
+  }
+
+  .profile-image img {
+    /* 图片放大，然后只显示一部分 */
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .content {
+    /* 左边内容占7列 */
+    grid-column: 1 / 8;
+    padding: 38px 28px 20px 33px;
+    position: relative;
+  }
+
+  nav {
+    margin-bottom: 24px;
+    display: flex;
+    position: relative;
+  }
+
+  nav a {
+    color: var(--text-color-gray);
+    text-decoration: none;
+  }
+
+  nav a.active {
+    color: var(--primary-dark-color);
+  }
+
+  nav a:not(:last-child) {
+    margin-right: 40px;
+  }
+
+  nav .indicator {
+    height: 2px;
+    background: var(--primary-dark-color);
+    bottom: -7px;
+    left: 0;
+    position: absolute;
+    transition: 0.4s;
+  }
+
+  .content section {
+    /* 堆叠番剧简介和评价部分 */
+    position: absolute;
+    /* 默认都不显示  */
+    opacity: 0;
+    /* 淡出淡入效果 */
+    transition: 0.3s ease-out;
+  }
+
+  .content section.active-section {
+    /* 显示active-section */
+    opacity: 1;
+  }
+
+  /* 名字与bangumi按钮左右布局，各占一列，子栅格不受父栅格影响，是个全新的栅格布局 */
+  .personal-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  /* 名字 */
+  .title h1 {
+    font-size: 1.5em;
+    font-weight: 600;
+  }
+
+  /* 关注按钮 */
+  .follow-btn {
+    justify-self: end;
+    height: 30px;
+    background: var(--primary-color);
+    border: none;
+    color: white;
+    padding: 0 27px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 30px;
+  }
+
+  /* 关注按钮的加号 */
+  .follow-btn .fas {
+    font-size: 10px;
+    margin-right: 6px;
+  }
+
+  /* 关于番剧部分 */
+  .about-me {
+    color: var(--text-color-dark-gray);
+    font-weight: 300;
+    text-align: justify;
+  }
+
+
+  /* 评论，一共3条评论 */
+  .work-exps {
+    color: var(--text-color-gray);
+    display: grid;
+    grid-template-rows: repeat(3, minmax(80px, auto));
+  }
+
+  /* 每个工作经历为三列栅格布局，分别为职位，分隔线、公司名和工作时间部分 */
+  .work-exp-item {
+    display: grid;
+    /* 列之间的比例 */
+    grid-template-columns: 5fr 1fr 7fr;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 评论来源 */
+  .position {
+    font-size: 18px;
+    font-weight: 500;
+  }
+  /* 分隔线 */
+  .seperator {
+    height: 43px;
+    /* width: 1px; */
+    border-left: 2px dotted #eaeff2;
+  }
+
+  /* 评论内容 */
+  .company {
+    font-size: 14px;
+    color: var(--text-color-dark-gray);
+    margin-top: 9px;
+  }
+}
+
+
+/*页脚*/
+.footer-2 {
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 1), transparent),url('img/background-bottom.jpg');
+  background-size:  cover;
+  height: 240px;
+  position: relative;
+  bottom: 0;
+  left: -124px;
+  right: 124px;
+  width: 150%;
+  transform: translateZ(-1px) scale(1);
+  overflow: hidden;
+}
+
+/*屏幕适配*/
+@media screen and (max-width: 1412px) {
+  .container {
+    padding: 0 40px;
+  }
+}
+
+
+@media screen and (max-width: 1250px) {
+  .container {
+    padding: 0 40px;
+  }
+  article {
+    .pro-card {
+      width: 120px;
+      height: 176px;
+      margin: 4px;
+      font-size: 10px;
+
+      .character img {
+        max-width: 120px
+      };
+    };
+
+    .br {
+      width: 120px;
+      height: 176px;
+      margin: 4px;
+    }
+  }
+}
+
+@media screen and (max-width: 994px) {
+  .container {
+    padding: 0 0px;
+  }
+  article {
+    .pro-card {
+      width: 80px;
+      height: 124px;
+      margin: 4px;
+      font-size: 8px;
+
+      .character img {
+        max-width: 80px
+      };
+    };
+
+    .br {
+      width: 80px;
+      height: 124px;
+      margin: 4px;
+    }
+  }
+}
+
+/*动画关键帧*/
+@keyframes rotate-cube {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  20% {
+    /* 右边图片 */
+    transform: rotateY(-90deg);
+  }
+  40% {
+    /* 上 */
+    transform: rotateX(-90deg);
+  }
+  60% {
+    /* 左 */
+    transform: rotateY(90deg);
+  }
+  80% {
+    /* 下 */
+    transform: rotateX(90deg);
+  }
+  100% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .burger {
+    display: block;
+  }
+
+  /* 小屏幕菜单显示位置为右侧抽屉形式 */
+  .nav-menu {
+    position: absolute;
+    top: 48px;
+    right: 0;
+    bottom: 0;
+    width: 50vw;
+    height: calc(100vh - 80px);
+
+    background-color: rgb(65, 81, 101, 0.9);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    /* 动画 */
+    transform: translateX(100%);
+  }
+
+  /* 菜单打开时，滑到初始位置 */
+  .nav-menu.open {
+    transform: translateX(0);
+    transition: 0.4s ease-in-out;
+  }
+
+  /* 每个菜单项默认看不到，向右移动20象素 */
+  .nav-menu li {
+    /* 上下间距 */
+    margin: 3vh;
+    transform: translateX(20px);
+    opacity: 0;
+  }
+
+  /* 汉堡按钮被点开时，设置按钮过渡 */
+  .burger.active div {
+    transition: 0.3s ease-in-out 0.3s;
+  }
+
+  /* 第一条线旋转45度 */
+  .burger.active .top-line {
+    transform: rotate(45deg) translate(2px, 7px);
+  }
+
+  /* 第三条线旋转-45度 */
+  .burger.active .bottom-line {
+    transform: rotate(-45deg) translate(2px, -7px);
+  }
+
+  /* 中间线向右移动并变为透明 */
+  .burger.active .middle-line {
+    opacity: 0;
+    transform: translateX(10px);
+    transition: 0.3s ease-in-out;
+  }
+
+  /* 菜单项滑入动画 */
+  @keyframes slideIn {
+    from {
+      transform: translateX(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+}
